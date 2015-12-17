@@ -113,7 +113,9 @@ site.init({
     },
     'apostrophe-groups': {},
     'apostrophe-browserify': {
-      files: ["./public/js/modules/_site.js"]
+      files: ["./public/js/modules/_site.js"],
+      react: true,
+      development: true
     },
     'apostrophe-demo-login': {
     }
