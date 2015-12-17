@@ -3,13 +3,26 @@ var ReactDOM = require('react-dom');
 $(function(){
 	// JSX HELLO WORLD TIME TEST
 	var Hello = React.createClass({
+		getInitialState: function(){
+			return {name: this.props.name};
+		},
     render: function() {
-      return <div>Hello {this.props.name}</div>;
-    }
+			var name = this.state.name
+      return (
+				<div>
+					<input type="text" value={name} onChange={this.handleChange}/>
+					<div>Hello {name}</div>
+				</div>
+			)
+    },
+		handleChange: function(event) {
+			console.log(event.target, event.target.value);
+			this.setState({name: event.target.value});
+		}
 	});
 
 	ReactDOM.render(
-    <Hello name="Joel" />,
+    <Hello options="Joel" />,
     document.getElementById('hello-joel')
 	);
 
@@ -23,6 +36,7 @@ $(function(){
     document.getElementById('hello-bella')
 	);
 
+
 	//SELECT TEST
 	var selectTest = React.createClass({
 		getInitialState: function(){
@@ -35,25 +49,30 @@ $(function(){
 	  },
 	  render: function() {
 	    var value = this.state.value;
-			return React.createElement("div", {className: 'great-wrapper'},
-				React.createElement("select", {className: 'great-select', value: value, onChange: this.handleChange },
-         React.createElement("option", { value: 1 }, "1"),
-         React.createElement("option", { value: 2 }, "2"),
-				 React.createElement("option", { value: 3 }, "3")
-			  ),
-			  React.createElement("div", {className: 'great-message'}, 'The Value is: ' + value)
-			);
-	  },
-		setUpInputs: function(val){
-			for(i = 0; i < val; i++){
-				return React.createElement("input", {className: 'great-wrapper-'+i});
+			var counter = [];
+			console.log("Value is:", value);
+			for(i = 0; i < value; i++){
+				counter.push('counted');
 			}
-		}
+			return (
+				<div className="great-wrapper">
+					<select className="great-select" value={value} onChange={this.handleChange}>
+						<option value="1">One</option>
+						<option value="2">Two</option>
+						<option value="3">Three</option>
+					</select>
+					<div className="great-message">The value is {value}</div>
+					{counter.map(function(result) {
+	          return <Hello name={result}/>;
+	        })}
+				</div>
+			)
+	  }
 	})
 
 	ReactDOM.render(
-	    React.createElement(selectTest, {name: "ONE"}),
-	    document.getElementById('joels-test')
+    React.createElement(selectTest, {name: "ONE"}),
+    document.getElementById('joels-test')
 	);
 
 });
